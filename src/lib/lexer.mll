@@ -28,16 +28,47 @@
 }
 
 let spaces = [' ' '\t'] +
+let alpha = ['a'-'z' 'A'-'Z'] 
 let digit = ['0'-'9']
 let litint = digit +
+let id = alpha+ (alpha | digit | '_')*
 
 rule token = parse
   | spaces        { token lexbuf }
-  | '\n'          { L.new_line lexbuf;
-                    token lexbuf }
+  | '\n'          { L.new_line lexbuf; token lexbuf }
   | litint as lxm { INTEGER (int_of_string lxm) }
   | '"'           { string lexbuf.L.lex_start_p lexbuf }
-  (* add the remaining tokens *)
+  | id as lxm     { ID (Symbol.symbol lxm) }
+  | '+'           { PLUS }
+  | '-'           { MINUS }
+  | '*'           { TIMES }  
+  | '/'           { DIV }
+  | '%'           { MOD }
+  | '^'           { POW }
+  | '='           { EQ }
+  | "<>"          { NE }
+  | '<'           { LT }
+  | "<="          { LE }
+  | '>'           { GT }
+  | ">="          { GE }
+  | '|'           { OR }
+  | '&'           { AND }
+  | '('           { LPAREN }
+  | ')'           { RPAREN }
+  | ':'           { COLON }
+  | ','           { COMMA }
+  | ';'           { SEMI }
+  | ":="          { ASSIGN }
+  | "var"         { VAR }
+  | "if"          { IF }
+  | "then"        { THEN }
+  | "else"        { ELSE }
+  | "while"       { WHILE }
+  | "do"          { DO }
+  | "break"       { BREAK } 
+  | "let"         { LET }
+  | "in"          { IN }
+  | "end"         { END }
   | eof           { EOF }
   | _             { illegal_character (Location.curr_loc lexbuf) (L.lexeme_char lexbuf 0) }
 
@@ -46,11 +77,22 @@ and string pos = parse
                          let text = Buffer.contents string_buffer in
                          Buffer.clear string_buffer;
                          STRING text }
+| "\\\\"               { Buffer.add_char string_buffer '\\';
+                        string pos lexbuf }
+| "\\\""              { Buffer.add_char string_buffer '\"';
+                        string pos lexbuf }
 | "\\t"                { Buffer.add_char string_buffer '\t';
                          string pos lexbuf }
-(* add the other escape sequences *)
-(* report error on invalid escape sequence *)
+| "\\n"               { Buffer.add_char string_buffer '\n';
+                        string pos lexbuf }
+| "\\r"               { Buffer.add_char string_buffer '\r';
+                        string pos lexbuf }
+| "\\b"               { Buffer.add_char string_buffer '\b';
+                        string pos lexbuf }                     
+| "\\" (digit digit digit as x)     { string pos (append_char buf (int_of_string x)) lexbuf }
 | [^ '\\' '"']+ as lxm { str_incr_linenum lxm lexbuf;
                          Buffer.add_string string_buffer lxm;
                          string pos lexbuf }
-(* report error on eof *)
+| eof                   { unterminated_string (pos, lexbuf.L.lex_start_p);
+                          token lexbuf
+                        }
