@@ -89,7 +89,10 @@ and string pos = parse
                         string pos lexbuf }
 | "\\b"               { Buffer.add_char string_buffer '\b';
                         string pos lexbuf }                     
-| "\\" (digit digit digit as x)     { string pos (append_char buf (int_of_string x)) lexbuf }
+| "\\^" (['A'-'Z' '@' '[' '\\' ']' '^' '_' '?'] as j)  { Buffer.add_char string_buffer j;
+                         string pos lexbuf }
+| "\\" (digit digit digit as t)     { Buffer.add_string string_buffer t; 
+                         string pos lexbuf }
 | [^ '\\' '"']+ as lxm { str_incr_linenum lxm lexbuf;
                          Buffer.add_string string_buffer lxm;
                          string pos lexbuf }
