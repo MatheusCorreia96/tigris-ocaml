@@ -81,6 +81,10 @@ and string pos = parse
                         string pos lexbuf }
 | "\\\""              { Buffer.add_char string_buffer '\"';
                         string pos lexbuf }
+| "\\f"                { Buffer.add_char string_buffer return_barra_f;
+                         string pos lexbuf }  
+| "\\v"                { Buffer.add_char string_buffer return_barra_v;
+                         string pos lexbuf }                                                 
 | "\\t"                { Buffer.add_char string_buffer '\t';
                          string pos lexbuf }
 | "\\n"               { Buffer.add_char string_buffer '\n';
