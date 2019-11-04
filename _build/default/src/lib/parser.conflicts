@@ -1,0 +1,64 @@
+
+** Conflict (shift/reduce) in state 90.
+** Token involved: FUNCTION
+** This state is reached from program after reading:
+
+LET funcdec 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+program 
+exp EOF 
+LET decs IN exp 
+    list(dec) 
+    (?)
+
+** In state 90, looking ahead at FUNCTION, shifting is permitted
+** because of the following sub-derivation:
+
+dec list(dec) 
+nonempty_list(funcdec) 
+funcdec nonempty_list(funcdec) 
+        funcdec 
+        . FUNCTION ID LPAREN loption(separated_nonempty_list(COMMA,param)) RPAREN EQ exp 
+
+** In state 90, looking ahead at FUNCTION, reducing production
+** nonempty_list(funcdec) -> funcdec 
+** is permitted because of the following sub-derivation:
+
+dec list(dec) // lookahead token appears because list(dec) can begin with FUNCTION
+nonempty_list(funcdec) // lookahead token is inherited
+funcdec . 
+
+** Conflict (shift/reduce) in state 85.
+** Token involved: TYPE
+** This state is reached from program after reading:
+
+LET typedec 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+program 
+exp EOF 
+LET decs IN exp 
+    list(dec) 
+    (?)
+
+** In state 85, looking ahead at TYPE, reducing production
+** nonempty_list(typedec) -> typedec 
+** is permitted because of the following sub-derivation:
+
+dec list(dec) // lookahead token appears because list(dec) can begin with TYPE
+nonempty_list(typedec) // lookahead token is inherited
+typedec . 
+
+** In state 85, looking ahead at TYPE, shifting is permitted
+** because of the following sub-derivation:
+
+dec list(dec) 
+nonempty_list(typedec) 
+typedec nonempty_list(typedec) 
+        typedec 
+        . TYPE ID ASSIGN typeCons 

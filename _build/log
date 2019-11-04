@@ -1,0 +1,100 @@
+# dune build src/bin/driver.exe
+# OCAMLPARAM: unset
+$ /usr/bin/nproc > /tmp/dunee7dc98.output 2> /dev/null
+$ /home/joao/.opam/4.07.1/bin/ocamlc.opt -config > /tmp/dune82a6dc.output
+$ (cd _build/default && /home/joao/.opam/4.07.1/bin/menhir --explain --dump --graph --log-grammar 2 src/lib/parser.mly --base src/lib/parser --infer-write-query src/lib/parser__mock.ml.mock)
+> File "src/lib/parser.mly", line 14, characters 30-33:
+> Warning: the token END is unused.
+> File "src/lib/parser.mly", line 10, characters 23-27:
+> Warning: the token REAL is unused.
+> File "src/lib/parser.mly", line 9, characters 23-29:
+> Warning: the token STRING is unused.
+$ (cd _build/default && /home/joao/.opam/4.07.1/bin/ocamldep.opt -modules -ppx '.ppx/34885fcd6a9e38b99260c86ee1531994/ppx.exe --as-ppx --cookie '\''library-name="tigris"'\''' -impl src/lib/parser__mock.ml.mock) > _build/default/src/lib/.tigris.objs/parser__mock.ml.mock.d
+$ (cd _build/default && /home/joao/.opam/4.07.1/bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -warn-error -A -g -I src/lib/.tigris.objs/byte -I /home/joao/.opam/4.07.1/lib/base -I /home/joao/.opam/4.07.1/lib/base/caml -I /home/joao/.opam/4.07.1/lib/base/shadow_stdlib -I /home/joao/.opam/4.07.1/lib/camomile -I /home/joao/.opam/4.07.1/lib/camomile/default_config -I /home/joao/.opam/4.07.1/lib/camomile/dyn -I /home/joao/.opam/4.07.1/lib/camomile/lib_default -I /home/joao/.opam/4.07.1/lib/camomile/library -I /home/joao/.opam/4.07.1/lib/fieldslib -I /home/joao/.opam/4.07.1/lib/ppx_compare/runtime-lib -I /home/joao/.opam/4.07.1/lib/ppx_deriving/runtime -I /home/joao/.opam/4.07.1/lib/ppx_expect/collector -I /home/joao/.opam/4.07.1/lib/ppx_expect/common -I /home/joao/.opam/4.07.1/lib/ppx_expect/config -I /home/joao/.opam/4.07.1/lib/ppx_inline_test/config -I /home/joao/.opam/4.07.1/lib/ppx_inline_test/runtime-lib -I /home/joao/.opam/4.07.1/lib/ppx_sexp_conv/runtime-lib -I /home/joao/.opam/4.07.1/lib/result -I /home/joao/.opam/4.07.1/lib/sexplib0 -short-paths -i -impl src/lib/parser__mock.ml.mock) > _build/default/src/lib/parser__mock.mli.inferred
+$ (cd _build/default && /home/joao/.opam/4.07.1/bin/menhir --explain --dump --graph --log-grammar 2 src/lib/parser.mly --base src/lib/parser --infer-read-reply src/lib/parser__mock.mli.inferred)
+> Grammar has 19 nonterminal symbols, among which 1 start symbols.
+> Grammar has 38 terminal symbols.
+> Grammar has 57 productions.
+> nullable(vardec) = false
+> nullable(var) = false
+> nullable(typedec) = false
+> nullable(typeCons) = false
+> nullable(separated_nonempty_list(SEMI,exp)) = false
+> nullable(separated_nonempty_list(COMMA,param)) = false
+> nullable(separated_nonempty_list(COMMA,exp)) = false
+> nullable(program) = false
+> nullable(param) = false
+> nullable(nonempty_list(typedec)) = false
+> nullable(nonempty_list(funcdec)) = false
+> nullable(loption(separated_nonempty_list(SEMI,exp))) = true
+> nullable(loption(separated_nonempty_list(COMMA,param))) = true
+> nullable(loption(separated_nonempty_list(COMMA,exp))) = true
+> nullable(list(dec)) = true
+> nullable(funcdec) = false
+> nullable(exp) = false
+> nullable(decs) = true
+> nullable(dec) = false
+> first(vardec) = VAR
+> first(var) = ID
+> first(typedec) = TYPE
+> first(typeCons) = ID
+> first(separated_nonempty_list(SEMI,exp)) = WHILE MINUS LPAREN LOGIC LET INTEGER IF ID BREAK
+> first(separated_nonempty_list(COMMA,param)) = ID
+> first(separated_nonempty_list(COMMA,exp)) = WHILE MINUS LPAREN LOGIC LET INTEGER IF ID BREAK
+> first(program) = WHILE MINUS LPAREN LOGIC LET INTEGER IF ID BREAK
+> first(param) = ID
+> first(nonempty_list(typedec)) = TYPE
+> first(nonempty_list(funcdec)) = FUNCTION
+> first(loption(separated_nonempty_list(SEMI,exp))) = WHILE MINUS LPAREN LOGIC LET INTEGER IF ID BREAK
+> first(loption(separated_nonempty_list(COMMA,param))) = ID
+> first(loption(separated_nonempty_list(COMMA,exp))) = WHILE MINUS LPAREN LOGIC LET INTEGER IF ID BREAK
+> first(list(dec)) = VAR TYPE FUNCTION
+> first(funcdec) = FUNCTION
+> first(exp) = WHILE MINUS LPAREN LOGIC LET INTEGER IF ID BREAK
+> first(decs) = VAR TYPE FUNCTION
+> first(dec) = VAR TYPE FUNCTION
+> minimal(vardec) = (* 4 *) VAR ID ASSIGN LOGIC
+> minimal(var) = (* 1 *) ID
+> minimal(typedec) = (* 4 *) TYPE ID ASSIGN ID
+> minimal(typeCons) = (* 1 *) ID
+> minimal(separated_nonempty_list(SEMI,exp)) = (* 1 *) LOGIC
+> minimal(separated_nonempty_list(COMMA,param)) = (* 3 *) ID COLON ID
+> minimal(separated_nonempty_list(COMMA,exp)) = (* 1 *) LOGIC
+> minimal(program) = (* 2 *) LOGIC EOF
+> minimal(param) = (* 3 *) ID COLON ID
+> minimal(nonempty_list(typedec)) = (* 4 *) TYPE ID ASSIGN ID
+> minimal(nonempty_list(funcdec)) = (* 6 *) FUNCTION ID LPAREN RPAREN EQ LOGIC
+> minimal(loption(separated_nonempty_list(SEMI,exp))) = (* 0 *) 
+> minimal(loption(separated_nonempty_list(COMMA,param))) = (* 0 *) 
+> minimal(loption(separated_nonempty_list(COMMA,exp))) = (* 0 *) 
+> minimal(list(dec)) = (* 0 *) 
+> minimal(funcdec) = (* 6 *) FUNCTION ID LPAREN RPAREN EQ LOGIC
+> minimal(exp) = (* 1 *) LOGIC
+> minimal(decs) = (* 0 *) 
+> minimal(dec) = (* 4 *) VAR ID ASSIGN LOGIC
+> follow(vardec) = VAR TYPE IN FUNCTION
+> follow(var) = VAR TYPE TIMES THEN SEMI RPAREN POW PLUS OR NE MOD MINUS LT LE IN GT GE FUNCTION EQ EOF ELSE DO DIV COMMA ASSIGN AND
+> follow(typedec) = VAR TYPE IN FUNCTION
+> follow(typeCons) = VAR TYPE IN FUNCTION
+> follow(separated_nonempty_list(SEMI,exp)) = RPAREN
+> follow(separated_nonempty_list(COMMA,param)) = RPAREN
+> follow(separated_nonempty_list(COMMA,exp)) = RPAREN
+> follow(program) = #
+> follow(param) = RPAREN COMMA
+> follow(nonempty_list(typedec)) = VAR TYPE IN FUNCTION
+> follow(nonempty_list(funcdec)) = VAR TYPE IN FUNCTION
+> follow(loption(separated_nonempty_list(SEMI,exp))) = RPAREN
+> follow(loption(separated_nonempty_list(COMMA,param))) = RPAREN
+> follow(loption(separated_nonempty_list(COMMA,exp))) = RPAREN
+> follow(list(dec)) = IN
+> follow(funcdec) = VAR TYPE IN FUNCTION
+> follow(exp) = VAR TYPE TIMES THEN SEMI RPAREN POW PLUS OR NE MOD MINUS LT LE IN GT GE FUNCTION EQ EOF ELSE DO DIV COMMA AND
+> follow(decs) = IN
+> follow(dec) = VAR TYPE IN FUNCTION
+> The grammar is not SLR(1) -- 22 states have a conflict.
+> Warning: 2 states have shift/reduce conflicts.
+> Warning: 2 shift/reduce conflicts were arbitrarily resolved.
+$ (cd _build/default && /home/joao/.opam/4.07.1/bin/ocamldep.opt -modules -ppx '.ppx/34885fcd6a9e38b99260c86ee1531994/ppx.exe --as-ppx --cookie '\''library-name="tigris"'\''' -impl src/lib/parser.ml) > _build/default/src/lib/.tigris.objs/parser.ml.d
+$ (cd _build/default && /home/joao/.opam/4.07.1/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -warn-error -A -g -ppx '.ppx/34885fcd6a9e38b99260c86ee1531994/ppx.exe --as-ppx --cookie '\''library-name="tigris"'\''' -I src/lib/.tigris.objs/byte -I src/lib/.tigris.objs/native -I /home/joao/.opam/4.07.1/lib/base -I /home/joao/.opam/4.07.1/lib/base/caml -I /home/joao/.opam/4.07.1/lib/base/shadow_stdlib -I /home/joao/.opam/4.07.1/lib/camomile -I /home/joao/.opam/4.07.1/lib/camomile/default_config -I /home/joao/.opam/4.07.1/lib/camomile/dyn -I /home/joao/.opam/4.07.1/lib/camomile/lib_default -I /home/joao/.opam/4.07.1/lib/camomile/library -I /home/joao/.opam/4.07.1/lib/fieldslib -I /home/joao/.opam/4.07.1/lib/ppx_compare/runtime-lib -I /home/joao/.opam/4.07.1/lib/ppx_deriving/runtime -I /home/joao/.opam/4.07.1/lib/ppx_expect/collector -I /home/joao/.opam/4.07.1/lib/ppx_expect/common -I /home/joao/.opam/4.07.1/lib/ppx_expect/config -I /home/joao/.opam/4.07.1/lib/ppx_inline_test/config -I /home/joao/.opam/4.07.1/lib/ppx_inline_test/runtime-lib -I /home/joao/.opam/4.07.1/lib/ppx_sexp_conv/runtime-lib -I /home/joao/.opam/4.07.1/lib/result -I /home/joao/.opam/4.07.1/lib/sexplib0 -intf-suffix .ml -no-alias-deps -opaque -o src/lib/.tigris.objs/native/parser.cmx -c -impl src/lib/parser.ml)
+$ (cd _build/default && /home/joao/.opam/4.07.1/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -warn-error -A -g -a -o src/lib/tigris.cmxa src/lib/.tigris.objs/native/util.cmx src/lib/.tigris.objs/native/box.cmx src/lib/.tigris.objs/native/tree.cmx src/lib/.tigris.objs/native/location.cmx src/lib/.tigris.objs/native/symbol.cmx src/lib/.tigris.objs/native/absyn.cmx src/lib/.tigris.objs/native/error.cmx src/lib/.tigris.objs/native/parser.cmx src/lib/.tigris.objs/native/lexer.cmx src/lib/.tigris.objs/native/test.cmx src/lib/.tigris.objs/native/absyntotree.cmx)
+$ (cd _build/default && /home/joao/.opam/4.07.1/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -warn-error -A -g -o src/bin/driver.exe -I /home/joao/.opam/4.07.1/lib/base -I /home/joao/.opam/4.07.1/lib/base/caml -I /home/joao/.opam/4.07.1/lib/base/shadow_stdlib -I /home/joao/.opam/4.07.1/lib/camomile -I /home/joao/.opam/4.07.1/lib/camomile/default_config -I /home/joao/.opam/4.07.1/lib/camomile/dyn -I /home/joao/.opam/4.07.1/lib/camomile/lib_default -I /home/joao/.opam/4.07.1/lib/camomile/library -I /home/joao/.opam/4.07.1/lib/fieldslib -I /home/joao/.opam/4.07.1/lib/ppx_compare/runtime-lib -I /home/joao/.opam/4.07.1/lib/ppx_deriving/runtime -I /home/joao/.opam/4.07.1/lib/ppx_expect/collector -I /home/joao/.opam/4.07.1/lib/ppx_expect/common -I /home/joao/.opam/4.07.1/lib/ppx_expect/config -I /home/joao/.opam/4.07.1/lib/ppx_inline_test/config -I /home/joao/.opam/4.07.1/lib/ppx_inline_test/runtime-lib -I /home/joao/.opam/4.07.1/lib/ppx_sexp_conv/runtime-lib -I /home/joao/.opam/4.07.1/lib/result -I /home/joao/.opam/4.07.1/lib/sexplib0 -I src/lib /home/joao/.opam/4.07.1/lib/result/result.cmxa /home/joao/.opam/4.07.1/lib/ppx_deriving/runtime/ppx_deriving_runtime.cmxa /home/joao/.opam/4.07.1/lib/sexplib0/sexplib0.cmxa /home/joao/.opam/4.07.1/lib/ppx_sexp_conv/runtime-lib/ppx_sexp_conv_lib.cmxa /home/joao/.opam/4.07.1/lib/base/caml/caml.cmxa /home/joao/.opam/4.07.1/lib/base/shadow_stdlib/shadow_stdlib.cmxa /home/joao/.opam/4.07.1/lib/base/base.cmxa /home/joao/.opam/4.07.1/lib/fieldslib/fieldslib.cmxa /home/joao/.opam/4.07.1/lib/ppx_inline_test/config/inline_test_config.cmxa /home/joao/.opam/4.07.1/lib/ppx_inline_test/runtime-lib/ppx_inline_test_lib.cmxa /home/joao/.opam/4.07.1/lib/ppx_compare/runtime-lib/ppx_compare_lib.cmxa /home/joao/.opam/4.07.1/lib/ppx_expect/common/expect_test_common.cmxa /home/joao/.opam/4.07.1/lib/ppx_expect/config/expect_test_config.cmxa /home/joao/.opam/4.07.1/lib/ppx_expect/collector/expect_test_collector.cmxa /home/joao/.opam/4.07.1/lib/ocaml/unix.cmxa /home/joao/.opam/4.07.1/lib/ocaml/bigarray.cmxa /home/joao/.opam/4.07.1/lib/camomile/default_config/camomileDefaultConfig.cmxa /home/joao/.opam/4.07.1/lib/camomile/library/camomileLibrary.cmxa /home/joao/.opam/4.07.1/lib/camomile/lib_default/camomileLibraryDefault.cmxa /home/joao/.opam/4.07.1/lib/camomile/dyn/camomileLibraryDyn.cmxa /home/joao/.opam/4.07.1/lib/camomile/camomile_yuge.cmxa src/lib/tigris.cmxa src/bin/.driver.eobjs/native/cmdline.cmx src/bin/.driver.eobjs/native/driver.cmx)
